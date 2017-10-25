@@ -106,6 +106,19 @@ type LinkMsg struct {
 	PicURL     string `json:"picURL"`
 }
 
+type ActionCard struct {
+	Text           string `json:"text"`
+	Title          string `json:"title"`
+	HideAvatar     string `json:"hideAvatar"`
+	BtnOrientation string `json:"btnOrientation"`
+	SingleTitle    string `json:"singleTitle"`
+	SingleURL      string `json:"singleURL"`
+	Buttons        []struct {
+		Title     string `json:"title"`
+		ActionURL string `json:"actionURL"`
+	} `json:"btns"`
+}
+
 // Payload struct
 type Payload struct {
 	MsgType string `json:"msgtype"`
@@ -122,19 +135,8 @@ type Payload struct {
 		Text  string `json:"text"`
 		Title string `json:"title"`
 	} `json:"markdown"`
-	ActionCard struct {
-		Text           string `json:"text"`
-		Title          string `json:"title"`
-		HideAvatar     string `json:"hideAvatar"`
-		BtnOrientation string `json:"btnOrientation"`
-		SingleTitle    string `json:"singleTitle"`
-		SingleURL      string `json:"singleURL"`
-		Buttons        []struct {
-			Title     string `json:"title"`
-			ActionURL string `json:"actionURL"`
-		} `json:"btns"`
-	} `json:"actionCard"`
-	FeedCard struct {
+	ActionCard ActionCard `json:"actionCard"`
+	FeedCard   struct {
 		Links []LinkMsg `json:"links"`
 	} `json:"feedCard"`
 	At struct {
@@ -290,18 +292,7 @@ func (w *Webhook) SendSingleActionCardMsg(title, content, linkTitle, linkURL str
 
 	return w.SendPayload(&Payload{
 		MsgType: "actionCard",
-		ActionCard: struct {
-			Text           string `json:"text"`
-			Title          string `json:"title"`
-			HideAvatar     string `json:"hideAvatar"`
-			BtnOrientation string `json:"btnOrientation"`
-			SingleTitle    string `json:"singleTitle"`
-			SingleURL      string `json:"singleURL"`
-			Buttons        []struct {
-				Title     string `json:"title"`
-				ActionURL string `json:"actionURL"`
-			} `json:"btns"`
-		}{
+		ActionCard: ActionCard{
 			Text:           content,
 			Title:          title,
 			HideAvatar:     strHideAvatar,
@@ -347,18 +338,7 @@ func (w *Webhook) SendActionCardMsg(title, content string, linkTitles, linkURLs 
 
 	return w.SendPayload(&Payload{
 		MsgType: "actionCard",
-		ActionCard: struct {
-			Text           string `json:"text"`
-			Title          string `json:"title"`
-			HideAvatar     string `json:"hideAvatar"`
-			BtnOrientation string `json:"btnOrientation"`
-			SingleTitle    string `json:"singleTitle"`
-			SingleURL      string `json:"singleURL"`
-			Buttons        []struct {
-				Title     string `json:"title"`
-				ActionURL string `json:"actionURL"`
-			} `json:"btns"`
-		}{
+		ActionCard: ActionCard{
 			Text:           content,
 			Title:          title,
 			HideAvatar:     strHideAvatar,
